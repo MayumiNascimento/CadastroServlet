@@ -4,10 +4,18 @@ public class Aluno {
 	private int ra; 
 	private String nome; 
 	private String curso;
-	private char periodo; // d=diurno, v=vespertino, n=noturno 
+	private String periodo; // d=diurno, v=vespertino, n=noturno 
 	
-	public Aluno() { }
+
 	
+	public Aluno(int ra, String nome, String curso, String periodo) {
+		super();
+		this.ra = ra;
+		this.nome = nome;
+		this.curso = curso;
+		this.periodo = periodo;
+	}
+
 	public String getCurso() {
 		return curso;
 	}
@@ -24,11 +32,11 @@ public class Aluno {
 		this.nome = nome;
 	}
 	
-	public char getPeriodo() {
+	public String getPeriodo() {
 		return periodo;
 	}
 	
-	public void setPeriodo(char periodo) { 
+	public void setPeriodo(String periodo) { 
 		this.periodo = periodo;
 	}
 	

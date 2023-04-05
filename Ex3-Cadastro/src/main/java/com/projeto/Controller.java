@@ -23,17 +23,20 @@ public class Controller extends HttpServlet{
 
         PrintWriter out = response.getWriter();    	       
 
-        String matricula = request.getParameter("ra");
+        String matriculaString = request.getParameter("ra");
         String nome = request.getParameter("nome");
         String curso = request.getParameter("curso");
         String periodo = request.getParameter("periodos");
-        
         String camposVazios = "";
+        int matricula = 0;
         
-        if (matricula == null || matricula.equals("")) {
-        	camposVazios += "RA, ";
+        if (matriculaString == null || matriculaString.isEmpty()) {
+            camposVazios += "RA, ";
+        } else {
+        	//realiza a conversão para int
+            matricula = Integer.parseInt(matriculaString);
         }
-
+        
         if (nome == null || nome.equals("")) {
         	camposVazios += "Nome, ";
         }
@@ -44,7 +47,7 @@ public class Controller extends HttpServlet{
 
         // Se uma ou mais variáveis não foram preenchidas, redirecionar para outro servlet
         if (!camposVazios.equals("")) {
-        	// Remover a última vírgula e espaço
+        	
         	camposVazios = camposVazios.substring(0, camposVazios.length() - 2); 
         	
             String mensagem = "Os seguintes campos não foram preenchidos: " + camposVazios;
@@ -53,21 +56,10 @@ public class Controller extends HttpServlet{
             request.getRequestDispatcher("DadosIncompleto").forward(request, response);
         }
 
-        String msg = "<br>O aluno " + nome + " de RA " + matricula + " do curso: " + curso + "<br>";    	       
-
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<title>Exercício 3 - Cadastro Aluno</title>");
-        out.println("</head>");
-        out.println("<body><center>");
-        out.println("<h1>Dados de cadastro do aluno</h1><br><br><hr>");
-        out.println(msg);    	        
-        out.println("Aluno cadastrado com sucesso ao sistema !<br><hr><br>");
-     
-        out.println("<a href='index.html'>Voltar</a>");
-        out.println("</center></body>");
-        out.println("</html>");   
-        out.close();
+        Aluno a = new Aluno(matricula, nome, curso, periodo);
+            	       
+        request.setAttribute("aluno", a);
+        request.getRequestDispatcher("AlunoCadastrado").forward(request, response);
 	}
 	
 }
